@@ -1,0 +1,11 @@
+version: '3'
+services:
+        flink:
+                build: flink/.
+                ports:
+                        - "8081:8081"
+        hdfs:
+                build: hadoop/.
+                ports:
+                        - "50070:50070"
+                        - "9000:9000"

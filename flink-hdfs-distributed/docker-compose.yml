@@ -1,0 +1,44 @@
+version: '3'
+services:
+        jobmanager:
+                build:
+                        context: ./flink
+                        dockerfile: Dockerfile-jobmanager
+                expose:
+                        - "6123"
+                ports:
+                        - "8081:8081"
+                depends_on:
+                        - namenode
+        taskmanager:
+                build:
+                        context: ./flink
+                        dockerfile: Dockerfile-taskmanager
+                expose:
+                        - "6121"
+                        - "6122"
+                depends_on:
+                        - jobmanager
+        namenode:
+                build:
+                        context: ./hadoop
+                        dockerfile: Dockerfile-namenode
+                expose:
+                        - "9000"
+                ports:
+                        - "50070:50070"
+                depends_on:
+                        - datanode_1
+                        - datanode_2
+        datanode_1:
+                build: 
+                        context: ./hadoop
+                        dockerfile: Dockerfile-datanode
+                expose:
+                        - "50075"
+        datanode_2:
+                build: 
+                        context: ./hadoop
+                        dockerfile: Dockerfile-datanode
+                expose:
+                        - "50075"
