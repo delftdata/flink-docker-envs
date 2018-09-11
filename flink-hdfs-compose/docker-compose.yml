@@ -20,25 +20,38 @@ services:
                 depends_on:
                         - jobmanager
         namenode:
+                env_file:
+                        - ./hadoop.env
                 build:
                         context: ./hadoop
-                        dockerfile: Dockerfile-namenode
+                        dockerfile: Dockerfile
+                        args:
+                                - HADOOP_VERSION=2.8.4
                 expose:
                         - "9000"
                 ports:
                         - "50070:50070"
                 depends_on:
-                        - datanode_1
-                        - datanode_2
-        datanode_1:
+                        - datanode
+                entrypoint:
+                        - bash
+                        - /home/hadoop/entrypoint.sh
+                        - namenode
+                        - $HADOOP_DATANODE_SCALE
+        datanode:
+                env_file:
+                        - ./hadoop.env
                 build: 
                         context: ./hadoop
-                        dockerfile: Dockerfile-datanode
-                expose:
-                        - "50075"
-        datanode_2:
-                build: 
-                        context: ./hadoop
-                        dockerfile: Dockerfile-datanode
-                expose:
-                        - "50075"
+                        dockerfile: Dockerfile
+                        args:
+                                - HADOOP_VERSION=2.8.4
+                entrypoint:
+                        - bash
+                        - /home/hadoop/entrypoint.sh
+                        - datanode
+                # Enter here the range of ports according to the number of instances.
+                # The current range supports up to 26 instances.
+                # Use docker-compose ps at runtime to discover the exact mappping.
+                ports:
+                        - "50075-50100:50075"
