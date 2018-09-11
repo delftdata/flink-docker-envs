@@ -22,7 +22,7 @@ With the compose cluster you can scale the HDFS datanode instances and Flink tas
 
 - HDFS datanodes
 
-`HADOOP_DATANODE_SCALE=N` docker-compose up --scale datanode=N`
+`HADOOP_DATANODE_SCALE=N docker-compose up --scale datanode=N`
 
 The reason this can not happen automatically is that the namenode has to be notified about the new slaves and connect with them via ssh so that they are added to the cluster. Check out entrypoint.sh about what precisely is required.
 
