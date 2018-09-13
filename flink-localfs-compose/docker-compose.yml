@@ -1,0 +1,34 @@
+version: '3'
+services:
+        jobmanager:
+                build:
+                        context: ./flink
+                        dockerfile: Dockerfile
+                        args:
+                                - FLINK_VERSION=1.6
+                expose:
+                        - "6123"
+                ports:
+                        - "8081:8081"
+                entrypoint:
+                        - sudo
+                        - -u
+                        - hadoop
+                        - bin/jobmanager.sh
+                        - start-foreground
+                        - cluster
+        taskmanager:
+                build:
+                        context: ./flink
+                        dockerfile: Dockerfile
+                expose:
+                        - "6121"
+                        - "6122"
+                depends_on:
+                        - jobmanager
+                entrypoint:
+                        - sudo
+                        - -u
+                        - hadoop
+                        - bin/taskmanager.sh
+                        - start-foreground
