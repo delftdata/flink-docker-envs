@@ -3,22 +3,34 @@ services:
         jobmanager:
                 build:
                         context: ./flink
-                        dockerfile: Dockerfile-jobmanager
+                        dockerfile: Dockerfile
+                        args:
+                                - FLINK_VERSION=1.6
                 expose:
                         - "6123"
                 ports:
                         - "8081:8081"
                 depends_on:
                         - namenode
+                entrypoint:
+                        - bash
+                        - /home/flink/entrypoint.sh
+                        - jobmanager
         taskmanager:
                 build:
                         context: ./flink
-                        dockerfile: Dockerfile-taskmanager
+                        dockerfile: Dockerfile
+                        args:
+                                - FLINK_VERSION=1.6
                 expose:
                         - "6121"
                         - "6122"
                 depends_on:
                         - jobmanager
+                entrypoint:
+                        - bash
+                        - /home/flink/entrypoint.sh
+                        - taskmanager
         namenode:
                 env_file:
                         - ./hadoop.env
@@ -35,7 +47,7 @@ services:
                         - datanode
                 entrypoint:
                         - bash
-                        - /home/hadoop/entrypoint.sh
+                        - /home/flink/entrypoint.sh
                         - namenode
                         - $HADOOP_DATANODE_SCALE
         datanode:
@@ -48,7 +60,7 @@ services:
                                 - HADOOP_VERSION=2.8.4
                 entrypoint:
                         - bash
-                        - /home/hadoop/entrypoint.sh
+                        - /home/flink/entrypoint.sh
                         - datanode
                 # Enter here the range of ports according to the number of instances.
                 # The current range supports up to 26 instances.

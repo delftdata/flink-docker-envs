@@ -13,9 +13,5 @@ WORKDIR /home/flink/flink/flink-dist
 RUN mvn clean install
 WORKDIR /home/flink/flink/build-target
 ADD --chown=flink:flink flink-conf.yaml conf/
+ADD --chown=flink:flink entrypoint.sh /home/flink
 USER root
-ENTRYPOINT service rsyslog start && \
-           sudo -u flink bin/start-cluster.sh && \
-           sudo -u flink tail -f /dev/null
-
-EXPOSE 8081

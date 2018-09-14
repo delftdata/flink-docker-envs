@@ -109,8 +109,8 @@ state.backend: rocksdb
 # Directory for checkpoints filesystem, when using any of the default bundled
 # state backends.
 #
-state.checkpoints.dir: file:///home/hadoop/flink-checkpoints
-state.backend.fs.checkpointdir: file:///home/hadoop/flink-checkpoints
+state.checkpoints.dir: file:///home/flink/flink-checkpoints
+state.backend.fs.checkpointdir: file:///home/flink/flink-checkpoints
 
 # Default target directory for savepoints, optional.
 #

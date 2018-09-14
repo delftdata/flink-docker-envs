@@ -13,7 +13,7 @@ services:
                 entrypoint:
                         - sudo
                         - -u
-                        - hadoop
+                        - flink
                         - bin/jobmanager.sh
                         - start-foreground
                         - cluster
@@ -21,6 +21,8 @@ services:
                 build:
                         context: ./flink
                         dockerfile: Dockerfile
+                        args:
+                                - FLINK_VERSION=1.6
                 expose:
                         - "6121"
                         - "6122"
@@ -29,6 +31,6 @@ services:
                 entrypoint:
                         - sudo
                         - -u
-                        - hadoop
+                        - flink
                         - bin/taskmanager.sh
                         - start-foreground
