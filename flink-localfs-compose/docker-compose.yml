@@ -6,6 +6,8 @@ services:
                         dockerfile: Dockerfile
                         args:
                                 - FLINK_VERSION=1.6
+                volumes:
+                        - flink-src:/home/flink/flink
                 expose:
                         - "6123"
                 ports:
@@ -23,6 +25,8 @@ services:
                         dockerfile: Dockerfile
                         args:
                                 - FLINK_VERSION=1.6
+                volumes:
+                        - flink-src:/home/flink/flink
                 expose:
                         - "6121"
                         - "6122"
@@ -34,3 +38,5 @@ services:
                         - flink
                         - bin/taskmanager.sh
                         - start-foreground
+volumes:
+        flink-src:
