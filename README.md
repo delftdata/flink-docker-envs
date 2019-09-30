@@ -4,11 +4,14 @@ A collection of Docker-based Flink setups.
 
 ## About the Flink image
 
-It contains Flink built from source (release-1.6) with enabled fault tolerance (RocksDb backend) connected to HDFS.
+It contains Flink built from source (release-1.6 or standby task failover strategy) with enabled fault tolerance (RocksDb backend) connected to HDFS or local file system.
+
 
 ## Setups
 
-- Single container: Flink and HDFS run in the same container
+The setup in `flink-localfs-compose` assumes that the Flink source already exists in a volume named `flink-src`.
+
+- Single container: Flink on HDFS or local file system run in the same container
 
 - Compose cluster: Flink and HDFS run as micro-services in different containers, that is Flink's job manager, Flink's task manager, HDFS's namenode, and HDFS's datanode(s) all run in different containers.
 
